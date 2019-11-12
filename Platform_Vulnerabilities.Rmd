@@ -1,0 +1,172 @@
+---
+title: "Platform Vulnerabilities"
+author: "Asees Kaur"
+date: "Nov 21,2018"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r}
+library(ggplot2)
+library(scales)
+library(plotly)
+```
+
+
+Reading the Data
+```{r}
+setwd("~/Project Vulnerbilities")
+getwd()
+vuln  = read.csv('vulnerabilities.csv', header = TRUE)
+```
+
+Windows
+```{r}
+
+windows = subset(vuln, Platform == "windows")
+
+ggplotly(ggplot(windows, aes(x = as.factor(Year), y = Vulnerabilities)) +
+  geom_bar(stat="identity", fill = c(replicate(9,"blue"), replicate(2,"orange"))) + 
+  xlab("Year") +
+  scale_y_continuous(breaks=seq(0,400,50)) +
+  ggtitle("Vulnerabilities in Windows") +
+  theme_linedraw())
+```
+
+Linux
+```{r}
+linux = subset(vuln, Platform == "Linux")
+ggplotly(ggplot(linux, aes(x = as.factor(Year), y = Vulnerabilities)) +
+  geom_bar(stat="identity", fill = c(replicate(9,"blue"), replicate(2,"orange"))) + 
+  xlab("Year") +
+  scale_y_continuous(breaks=seq(0,200,10)) +
+  ggtitle("Vulnerabilities in Linux") +
+  theme_linedraw())
+```
+
+Php
+```{r}
+php = subset(vuln, Platform == "php")
+ggplotly(ggplot(php, aes(x = as.factor(Year), y = Vulnerabilities)) +
+  geom_bar(stat="identity", fill = c(replicate(9,"blue"), replicate(2,"orange"))) + 
+  xlab("Year") +
+  scale_y_continuous(breaks=seq(0,800,50)) +
+  ggtitle("Vulnerabilities in PHP") +
+  theme_linedraw())
+```
+
+Multiple
+```{r}
+multiple = subset(vuln, Platform == "multiple")
+ggplotly(ggplot(multiple, aes(x = as.factor(Year), y = Vulnerabilities)) +
+  geom_bar(stat="identity", fill = c(replicate(9,"blue"), replicate(2,"orange"))) + 
+  xlab("Year") +
+  scale_y_continuous(breaks=seq(0,800,15)) +
+  ggtitle("Vulnerabilities in Multiple") +
+  theme_linedraw())
+```
+
+Hardware
+```{r}
+hardware = subset(vuln, Platform == "hardware")
+ggplotly(ggplot(hardware, aes(x = as.factor(Year), y = Vulnerabilities)) +
+  geom_bar(stat="identity", fill = c(replicate(9,"blue"), replicate(2,"orange"))) + 
+  xlab("Year") +
+  scale_y_continuous(breaks=seq(0,800,10)) +
+  ggtitle("Vulnerabilities in Hardware") +
+  theme_linedraw())
+```
+
+Asp
+```{r}
+asp = subset(vuln, Platform == "asp")
+ggplotly(ggplot(asp, aes(x = as.factor(Year), y = Vulnerabilities)) +
+  geom_bar(stat="identity", fill = c(replicate(9,"blue"), replicate(2,"orange"))) + 
+  xlab("Year") +
+  scale_y_continuous(breaks=seq(0,65,5)) +
+  ggtitle("Vulnerabilities in ASP") +
+  theme_linedraw())
+```
+
+Cgi
+```{r}
+cgi = subset(vuln, Platform == "cgi")
+
+ggplotly(ggplot(cgi, aes(x = as.factor(Year), y = Vulnerabilities)) +
+  geom_bar(stat="identity", fill = c(replicate(9,"blue"), replicate(2,"orange"))) + 
+  xlab("Year") +
+  scale_y_continuous(breaks=seq(0,50,5)) +
+  ggtitle("Vulnerabilities in CGI") +
+  theme_minimal())
+```
+
+Unix
+```{r}
+unix = subset(vuln, Platform == "unix")
+
+ggplotly(ggplot(unix, aes(x = as.factor(Year), y = Vulnerabilities)) +
+  geom_bar(stat="identity", fill = c(replicate(9,"blue"), replicate(2,"orange"))) + 
+  xlab("Year") +
+  scale_y_continuous(breaks=seq(0,8,1)) +
+  ggtitle("Vulnerabilities in Unix") +
+  theme_linedraw())
+```
+
+Osx
+```{r}
+osx = subset(vuln, Platform == "osx")
+ggplotly(ggplot(osx, aes(x = as.factor(Year), y = Vulnerabilities)) +
+  geom_bar(stat="identity", fill = c(replicate(9,"blue"), replicate(2,"orange"))) + 
+  xlab("Year") +
+  scale_y_continuous(breaks=seq(0,800,3)) +
+  ggtitle("Vulnerabilities in OSX") +
+  theme_linedraw())
+```
+
+Jsp
+```{r}
+jsp = subset(vuln, Platform == "jsp")
+
+ggplotly(ggplot(jsp, aes(x = as.factor(Year), y = Vulnerabilities)) +
+  geom_bar(stat="identity", fill = c(replicate(9,"blue"), replicate(2,"orange"))) + 
+  xlab("Year") +
+  scale_y_continuous(breaks=seq(0,800,5)) +
+  ggtitle("Vulnerabilities in JSP") +
+  theme_linedraw())
+```
+
+
+Predicted Vulnerabilities in 2019 and 2020
+```{r}
+pred_2019 = subset(vuln, Year == "2019")
+pred_2020 = subset(vuln, Year == "2020")
+
+ggplotly(ggplot(pred_2019, aes(x = Platform, y = Vulnerabilities)) + 
+  geom_bar(stat = "identity", fill = c("blue", "brown", "red", "orange", "pink", "yellow", "black", "purple", "green", "steel blue")) + theme_linedraw() + 
+  ggtitle("Predicted Vulnerabilities in 2019") + scale_y_continuous(breaks = seq(0,550,50)))
+ggplotly(ggplot(pred_2020, aes(x = Platform, y = Vulnerabilities)) + 
+  geom_bar(stat = "identity", fill = c("blue", "brown", "red", "orange", "pink", "yellow", "black", "purple", "green", "steel blue")) + theme_linedraw() +
+  ggtitle("Predicted Vulnerabilities in 2020") + scale_y_continuous(breaks = seq(0,550,50)))
+```
+
+
+
+Top 4 Vulnerabilities in 2019
+```{r}
+top_4_2019 = subset(pred_2019, Vulnerabilities > 80)
+ggplot(top_4_2019, aes(x = "", y = Vulnerabilities, fill = Platform)) + 
+  geom_bar(width = 1, stat = "identity") + coord_polar("y", start = 0) + geom_text(aes(x= 1.3,y = Vulnerabilities/3 + c(0, cumsum(Vulnerabilities)[-length(Vulnerabilities)]), 
+            label = percent(Vulnerabilities/800)), size=5)+ theme_linedraw()
+
+```
+
+
+Top 4 Vulnerabilities in 2020
+```{r}
+top_4_2020 = subset(pred_2020, Vulnerabilities > 80)
+ggplot(top_4_2020, aes(x = "", y = Vulnerabilities, fill = Platform)) + 
+  geom_bar(width = 1, stat = "identity") + coord_polar("y", start = 0) + geom_text(aes(x= 1.3,y = Vulnerabilities/3 + c(0, cumsum(Vulnerabilities)[-length(Vulnerabilities)]), 
+            label = percent(Vulnerabilities/800)), size=5)+ theme_linedraw()
+```
+
